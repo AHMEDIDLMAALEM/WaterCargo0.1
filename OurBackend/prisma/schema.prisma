@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// npx prisma migrate dev --name init
+// npx prisma migrate dev --name init
+// npx prisma studio
+// npm i @prisma/client
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  BC_public_key String @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role     Role     @default(USER)
+  dateOfBirth DateTime
+  phone     String
+  adress    String
+  languages UserLanguage[]
+  status    Status   @default(ACTIVE)
+  vehicles  Vehicle[]
+
+}
+model Vehicle {
+  id        Int      @id @default(autoincrement())
+  name      String
+  plate     String
+  color     String
+  brand     String
+  model     String
+  cargo     Boolean
+  trailer   Boolean
+  trailingCapacity Int
+  status    Status   @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  driver    User     @relation(fields: [driverId], references: [id])
+  driverId  String
+  cargoV CargoVolume[]
+}
+
+model WaterReserve {
+  id        Int      @id @default(autoincrement())
+  name      String
+  volume    Int
+  waterqualityindex Int
+  fillingpercentage Int
+  type     WaterReserveType
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  longitude Float
+  latitude  Float
+  site      Site     @relation(fields: [siteId], references: [id])
+  siteId    Int
+}
+model Site {
+  id        Int      @id @default(autoincrement())
+  name      String
+  location  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  waterReserve WaterReserve[]
+}
+enum WaterReserveType {
+  RIVER
+  RESERVOIR
+  LAKE
+  AQUIFER
+  SPRING
+  WELL
+  DRAIN
+}
+
+model Language {
+  id   Int    @id @default(autoincrement())
+  name LanguageEnum
+  users UserLanguage[]
+}
+
+model UserLanguage {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  language   Language @relation(fields: [languageId], references: [id])
+  languageId Int
+  @@id([userId, languageId])
+}
+
+model CargoVolume {
+  width Int
+  height Int
+  length Int
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId Int @unique
+}
+
+
+
+enum LanguageEnum {
+  ENGLISH
+  FRENCH
+  ARABIC
+  AMAZIGH_TACHELHIT
+  AMAZIGH_TAMAZIGHT
+  AMAZIGH_TARIFIT
+  ARABIC_SAHARAUI
+}
+enum Role {
+  USER
+  ADMIN
+  DRIVER
+}
+enum Status {
+  ONLINE
+  ACTIVE
+  OFFLINE
+}
+
