@@ -1,0 +1,9 @@
+<mat-toolbar color="primary" class="fixed-navBar">
+  <span>Water Supplies</span>
+  <div class="spacer"></div>
+  <button routerLink="/user" routerLinkActive="active" mat-button> <a routerLink="/admin"></a> Home</button>
+  <button routerLink="/listOfProjects" routerLinkActive="active" mat-button> <a routerLink="/ListDependenciesProject"></a> <a routerLink="/project"></a>Water Supplies</button>
+  <button routerLink="/complaints" routerLinkActive="active" mat-button> complaints</button>
+  <button routerLink="/settings" routerLinkActive="active" mat-button>Settings</button>
+  <button mat-mini-fab color="primary" [routerLink]="['/profile/',user]" routerLinkActive="active"  class="material-icons md-18">account_box</button>
+</mat-toolbar>

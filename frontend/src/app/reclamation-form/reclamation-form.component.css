@@ -1,0 +1,29 @@
+#complaints {
+    margin-left: 40px;
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+#pastComplaints {
+    text-align: center;
+    font-size: 20px;
+}
+
+#cards {
+    margin-left: 20px;
+    padding: 10px;
+    display: flex;
+
+}
+
+.example-card {
+    width: 200px;
+
+    margin-right: 80px;
+}
+#btnComplaint{
+    margin-top: 20px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
